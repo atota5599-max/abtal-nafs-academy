@@ -76,10 +76,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "description", content: "لعبة تعليمية تفاعلية لتدريب طلاب الصف الثالث الابتدائي على مهارات اختبار نافس في الرياضيات" },
       { name: "author", content: "د. فاطمة الصوقعي" },
       { property: "og:title", content: "أبطال نافس في الرياضيات" },
-      { property: "og:description", content: "تدريب ممتع ومتدرج على مهارات نافس للصف الثالث الابتدائي" },
+      { property: "og:description", content: "لعبة تعليمية تفاعلية لتدريب طلاب الصف الثالث الابتدائي على مهارات اختبار نافس في الرياضيات" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "أبطال نافس في الرياضيات" },
+      { name: "twitter:description", content: "لعبة تعليمية تفاعلية لتدريب طلاب الصف الثالث الابتدائي على مهارات اختبار نافس في الرياضيات" },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b4859a2e-1e61-4723-8c12-ea7ef12609df/id-preview-6d82f628--479fb958-f5d2-4838-9bc7-d375b422b1b1.lovable.app-1778923136715.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/b4859a2e-1e61-4723-8c12-ea7ef12609df/id-preview-6d82f628--479fb958-f5d2-4838-9bc7-d375b422b1b1.lovable.app-1778923136715.png" },
     ],
     links: [
       {
