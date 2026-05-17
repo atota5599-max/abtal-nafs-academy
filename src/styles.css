@@ -319,14 +319,12 @@
 
 @media (max-width: 640px) {
   .magic-castle, .magic-portal { font-size: 70px; }
-  .signature-badge { padding: 7px 14px; gap: 6px; top: 10px; }
+  .signature-badge { padding: 7px 14px; bottom: 8px; }
   .signature-text { font-size: 13px; }
-  .signature-star { font-size: 12px; }
 }
 @media (min-width: 1024px) {
   .signature-badge { padding: 12px 28px; }
   .signature-text { font-size: 19px; }
-  .signature-star { font-size: 18px; }
 }
 
 @layer utilities {
