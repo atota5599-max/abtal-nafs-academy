@@ -9,7 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
-import { MagicBackground, SignatureBadge } from "@/components/MagicBackground";
+import { MagicBackground } from "@/components/MagicBackground";
 
 function NotFoundComponent() {
   return (
@@ -75,7 +75,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: "أبطال نافس في الرياضيات" },
       { name: "description", content: "لعبة تعليمية تفاعلية لتدريب طلاب الصف الثالث الابتدائي على مهارات اختبار نافس في الرياضيات" },
-      { name: "author", content: "د. فاطمة الصوقعي" },
+      
       { property: "og:title", content: "أبطال نافس في الرياضيات" },
       { property: "og:description", content: "لعبة تعليمية تفاعلية لتدريب طلاب الصف الثالث الابتدائي على مهارات اختبار نافس في الرياضيات" },
       { property: "og:type", content: "website" },
@@ -126,7 +126,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <MagicBackground />
       <Outlet />
-      <SignatureBadge />
+      
     </QueryClientProvider>
   );
 }
