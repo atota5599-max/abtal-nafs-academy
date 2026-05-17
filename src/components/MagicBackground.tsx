@@ -59,12 +59,12 @@ export function MagicBackground() {
         <path fill="url(#mgrad2)" opacity="0.85" d="M0,260 L120,200 L240,250 L380,190 L520,240 L680,200 L820,260 L980,210 L1140,250 L1300,200 L1440,250 L1440,320 L0,320 Z" />
         <defs>
           <linearGradient id="mgrad1" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="oklch(0.82 0.16 290)" />
-            <stop offset="100%" stopColor="oklch(0.68 0.18 320)" />
+            <stop offset="0%" stopColor="oklch(0.85 0.16 150)" />
+            <stop offset="100%" stopColor="oklch(0.68 0.18 170)" />
           </linearGradient>
           <linearGradient id="mgrad2" x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="oklch(0.78 0.18 200)" />
-            <stop offset="100%" stopColor="oklch(0.6 0.2 240)" />
+            <stop offset="0%" stopColor="oklch(0.82 0.17 110)" />
+            <stop offset="100%" stopColor="oklch(0.62 0.18 145)" />
           </linearGradient>
         </defs>
       </svg>
