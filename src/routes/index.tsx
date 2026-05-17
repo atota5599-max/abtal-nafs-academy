@@ -193,9 +193,6 @@ function Home() {
           </>
         )}
 
-        <footer className="mt-12 text-center text-sm text-muted-foreground">
-          تصميم وإعداد: د. فاطمة الصوقعي
-        </footer>
       </main>
     </div>
   );
