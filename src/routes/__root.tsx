@@ -126,7 +126,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <MagicBackground />
       <Outlet />
-      
+      <SignatureBadge />
     </QueryClientProvider>
   );
 }
