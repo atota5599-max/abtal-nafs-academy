@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { MagicBackground, SignatureBadge } from "@/components/MagicBackground";
 
 function NotFoundComponent() {
   return (
@@ -123,7 +124,9 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <MagicBackground />
       <Outlet />
+      <SignatureBadge />
     </QueryClientProvider>
   );
 }
