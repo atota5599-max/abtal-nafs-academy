@@ -316,11 +316,6 @@
   text-shadow: 0 1px 0 oklch(0.3 0.08 60 / 0.3);
   letter-spacing: 0.5px;
 }
-.signature-star {
-  font-size: 16px;
-  animation: twinkle 1.8s ease-in-out infinite;
-  filter: drop-shadow(0 0 6px oklch(0.9 0.2 85 / 0.8));
-}
 
 @media (max-width: 640px) {
   .magic-castle, .magic-portal { font-size: 70px; }
