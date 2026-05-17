@@ -122,9 +122,7 @@ export function MagicBackground() {
 export function SignatureBadge() {
   return (
     <div className="signature-badge" aria-label="تصميم: فاطمة الصوقعي">
-      <span className="signature-star">✨</span>
       <span className="signature-text">تصميم: فاطمة الصوقعي</span>
-      <span className="signature-star">✨</span>
     </div>
   );
 }
