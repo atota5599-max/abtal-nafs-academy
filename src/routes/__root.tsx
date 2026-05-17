@@ -9,6 +9,7 @@ import {
 } from "@tanstack/react-router";
 
 import appCss from "../styles.css?url";
+import { MagicBackground, SignatureBadge } from "@/components/MagicBackground";
 
 function NotFoundComponent() {
   return (
