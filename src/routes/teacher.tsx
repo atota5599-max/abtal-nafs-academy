@@ -4,7 +4,9 @@ import { WORLDS } from "@/game/worlds";
 import {
   getTeacherPwd,
   loadAll,
+  pullAllFromCloud,
   setTeacherPwd,
+  subscribePlayers,
   getRecommendations,
   DEFAULT_TEACHER_PWD,
   type PlayerProgress,
@@ -23,7 +25,11 @@ function Teacher() {
   const [newPwd, setNewPwd] = useState("");
 
   useEffect(() => {
-    if (authed) setPlayers(loadAll());
+    if (!authed) return;
+    setPlayers(loadAll());
+    pullAllFromCloud().then(setPlayers);
+    const unsub = subscribePlayers(setPlayers);
+    return unsub;
   }, [authed]);
 
   const login = () => {

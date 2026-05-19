@@ -1,4 +1,5 @@
 import { WORLDS } from "./worlds";
+import { supabase } from "@/integrations/supabase/client";
 
 export interface SkillStat {
   attempts: number;
@@ -10,10 +11,10 @@ export interface SkillStat {
 export interface PlayerProgress {
   name: string;
   createdAt: number;
-  stars: Record<string, number>; // worldId -> stars (0..3)
-  badges: string[]; // world ids whose badge earned
+  stars: Record<string, number>;
+  badges: string[];
   perWorld: Record<string, { answered: string[]; correct: number; total: number }>;
-  skillStats: Record<string, SkillStat>; // skill name -> stats
+  skillStats: Record<string, SkillStat>;
   wrongQuestions: { worldId: string; questionId: string; prompt: string; chosen: string }[];
   lastActive: number;
 }
@@ -42,6 +43,7 @@ export function loadAll(): Record<string, PlayerProgress> {
 }
 
 export function saveAll(data: Record<string, PlayerProgress>) {
+  if (typeof window === "undefined") return;
   localStorage.setItem(KEY, JSON.stringify(data));
 }
 
@@ -53,6 +55,62 @@ export function getCurrentName(): string | null {
 export function setCurrentName(name: string) {
   localStorage.setItem(CURRENT, name);
 }
+
+// ============ Cloud sync ============
+
+function cloudUpsert(p: PlayerProgress) {
+  if (typeof window === "undefined") return;
+  // fire and forget
+  supabase
+    .from("players")
+    .upsert({
+      name: p.name,
+      data: JSON.parse(JSON.stringify(p)),
+      last_active: new Date(p.lastActive).toISOString(),
+    })
+    .then(({ error }) => {
+      if (error) console.warn("[cloud sync] upsert failed:", error.message);
+    });
+}
+
+export async function pullAllFromCloud(): Promise<Record<string, PlayerProgress>> {
+  const { data, error } = await supabase
+    .from("players")
+    .select("name,data,last_active")
+    .order("last_active", { ascending: false });
+  if (error) {
+    console.warn("[cloud sync] pull failed:", error.message);
+    return loadAll();
+  }
+  const merged: Record<string, PlayerProgress> = loadAll();
+  for (const row of data || []) {
+    const d = row.data as unknown as PlayerProgress | null;
+    if (d && d.name) {
+      merged[d.name] = { ...d, lastActive: new Date(row.last_active).getTime() };
+    }
+  }
+  saveAll(merged);
+  return merged;
+}
+
+export function subscribePlayers(cb: (all: Record<string, PlayerProgress>) => void) {
+  const channel = supabase
+    .channel("players-changes")
+    .on(
+      "postgres_changes",
+      { event: "*", schema: "public", table: "players" },
+      async () => {
+        const all = await pullAllFromCloud();
+        cb(all);
+      },
+    )
+    .subscribe();
+  return () => {
+    supabase.removeChannel(channel);
+  };
+}
+
+// ============ Player ops ============
 
 export function getOrCreatePlayer(name: string): PlayerProgress {
   const all = loadAll();
@@ -68,6 +126,7 @@ export function getOrCreatePlayer(name: string): PlayerProgress {
       lastActive: Date.now(),
     };
     saveAll(all);
+    cloudUpsert(all[name]);
   }
   return all[name];
 }
@@ -79,6 +138,7 @@ export function updatePlayer(name: string, mut: (p: PlayerProgress) => void) {
   p.lastActive = Date.now();
   all[name] = p;
   saveAll(all);
+  cloudUpsert(p);
   return p;
 }
 
@@ -121,7 +181,6 @@ export function recordAnswer(opts: {
       });
       if (p.wrongQuestions.length > 50) p.wrongQuestions.shift();
     }
-    // stars
     const ratio = w.total ? w.correct / w.total : 0;
     const stars = ratio >= 0.9 ? 3 : ratio >= 0.6 ? 2 : ratio >= 0.3 ? 1 : 0;
     p.stars[opts.worldId] = Math.max(p.stars[opts.worldId] || 0, stars);
