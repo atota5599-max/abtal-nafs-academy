@@ -65,7 +65,7 @@ function cloudUpsert(p: PlayerProgress) {
     .from("players")
     .upsert({
       name: p.name,
-      data: p as unknown as Record<string, unknown>,
+      data: JSON.parse(JSON.stringify(p)),
       last_active: new Date(p.lastActive).toISOString(),
     })
     .then(({ error }) => {
