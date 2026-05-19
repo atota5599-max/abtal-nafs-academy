@@ -5,7 +5,9 @@ import {
   getCurrentName,
   getOrCreatePlayer,
   loadAll,
+  pullAllFromCloud,
   setCurrentName,
+  subscribePlayers,
   type PlayerProgress,
 } from "@/game/store";
 
@@ -31,6 +33,17 @@ function Home() {
     setCurrent(n);
     setSavedPlayers(Object.keys(loadAll()));
     if (n) setPlayer(getOrCreatePlayer(n));
+    // pull latest from cloud
+    pullAllFromCloud().then((all) => {
+      setSavedPlayers(Object.keys(all));
+      if (n && all[n]) setPlayer(all[n]);
+    });
+    const unsub = subscribePlayers((all) => {
+      setSavedPlayers(Object.keys(all));
+      const cn = getCurrentName();
+      if (cn && all[cn]) setPlayer(all[cn]);
+    });
+    return unsub;
   }, []);
 
   const start = (n: string) => {
